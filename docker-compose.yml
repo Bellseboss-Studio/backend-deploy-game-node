@@ -1,0 +1,41 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - USER=mk_project_oc@bellseboss.com
+      - PASSWORD=mk_project_oc@bellseboss.com
+      - SERVICE=mail.bellseboss.com
+      - SERVICE_PORT=465
+      - FILE_HTML_EMAIL=/app/public/emails/get_game.html
+      - EMAIL_FROM=info@bellseboss.com
+      - EMAIL_SUBJECT=Get the Game from this link
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    # command: sh -c "npm run start_with_migration"
+    command: sh -c "npm run start_with_nodemon"
+    volumes:
+      - .:/app
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: your_database_name
+      MYSQL_USER: your_database_user
+      MYSQL_PASSWORD: your_database_password
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
+    depends_on:
+      - db

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MK proyect OC</title>
+</head>
+<body>
+    Into your email, you will receive a link to game.
+    <br>
+    <input type="email" id="email" placeholder="Enter your email">
+    <br>
+    <button id="send">Send</button>
+
+    <script src="js/SaveEmail.js"></script>
+    <script>
+        document.getElementById('send').addEventListener('click', function() {
+            var email = document.getElementById('email').value;
+            var saveEmail = new SaveEmail();
+            saveEmail.save(email, (data)=>{
+                alert('Email saved');
+                console.log(data);
+            }, (error)=>{
+                alert("Error: "+error.message);
+            });
+        });
+    </script>
+</body>
+</html>
