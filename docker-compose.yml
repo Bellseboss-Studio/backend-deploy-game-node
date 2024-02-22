@@ -14,14 +14,14 @@ services:
       - EMAIL_SUBJECT=Get the Game from this link
       - DB_HOST=db
       - DB_USER=your_database_user
-      - DB_PASSWORD=your_database_password
-      - DB_NAME=your_database_name
+      - DB_USER_PASSWORD=your_database_password
+      - DB_DB_NAME=your_database_name
     ports:
       - "3000:3000"
     depends_on:
       - db
     # command: sh -c "npm run start_with_migration"
-    command: sh -c "npm run start_with_nodemon"
+    command: sh -c "npm run start"
     volumes:
       - .:/app
   db:

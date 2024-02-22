@@ -12,7 +12,7 @@ class UserModel {
     if (user) {
       await Keys.saveKey(key, user).then((result) => {
         user.key = result;
-        //console.log(user, 'result in saveEmail UserModel');
+        console.log(user, 'result in saveEmail UserModel');
         return user;
       }).catch((error) => {
         throw error;
@@ -24,7 +24,7 @@ class UserModel {
           return knex('users').where('id', insertId).first();
         })
         .then(user => {
-          return Keys.saveKey(key, user.id).then((result) => {
+          return Keys.saveKey(key, user).then((result) => {
             user.key = result;
             return user;
           }).catch((error) => {
