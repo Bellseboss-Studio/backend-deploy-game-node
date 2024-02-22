@@ -3,14 +3,11 @@ const Keys = require('./key');
 const KeyGenerator = require('./keyGenerate');
 
 class UserModel {
-  async getAllUsers() {
-    return knex('users').select('*');
-  }
   async saveEmail(email) {
     var key = KeyGenerator.generateUUID();
     var user = await knex('users').where('email', email).first();
     if (user) {
-      await Keys.saveKey(key, user).then((result) => {
+      return await Keys.saveKey(key, user).then((result) => {
         user.key = result;
         console.log(user, 'result in saveEmail UserModel');
         return user;
