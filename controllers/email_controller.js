@@ -12,15 +12,15 @@ class UserController {
   }
 
   saveEmail(req, res) {
-    try {
-      const { email } = req.body;
-      var user = EmailModel.saveEmail(email);
-      console.log(savedEmail, 'savedEmail in UserController.saveEmail');
-      res.json({ email: user.email, key: user.key.key });
-    } catch (error) {
+    const { email } = req.body;
+    EmailModel.saveEmail(email).then((result) => {
+      console.log(result, 'savedEmail in UserController.saveEmail');
+      res.json({ email: result.email });
+    }
+    ).catch((error) => {
       console.error(error);
       res.status(500).json({ error: error.message, message: error.message });
-    }
+    });
   }
 }
 

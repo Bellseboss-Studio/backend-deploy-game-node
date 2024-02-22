@@ -14,7 +14,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "start_with_migration": "sleep 15 && knex migrate:latest && node app.js",
+    "start_with_migration": "knex migrate:latest && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start_with_nodemon": "nodemon app.js"
   },
