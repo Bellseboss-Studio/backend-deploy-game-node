@@ -15,7 +15,7 @@ app.get('/getgame', getgameController.getGame);
 
 app.use('/api/email', userRoutes);
 
-const PORT = process.env.PORT || 3100;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
