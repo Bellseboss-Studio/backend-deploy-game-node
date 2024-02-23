@@ -17,7 +17,7 @@
         document.getElementById('send').addEventListener('click', function() {
             var email = document.getElementById('email').value;
             var saveEmail = new SaveEmail();
-            saveEmail.save(email, (data)=>{
+            saveEmail.save("https://mkpoc.bellseboss.com",email, (data)=>{
                 alert('Email saved');
                 console.log(data);
             }, (error)=>{
