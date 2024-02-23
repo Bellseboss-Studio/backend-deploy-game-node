@@ -1,5 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
+app.use(cors({
+  origin: 'https://bellseboss-studio.github.io'
+}));
 const userRoutes = require('./routers/emails_router');
 require('dotenv').config();
 
