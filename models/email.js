@@ -44,6 +44,10 @@ class UserModel {
         throw error;
       });
   }
+
+  async getAllUsers() {
+    return knex('users').select('*');
+  }
 }
 
 module.exports = new UserModel();
