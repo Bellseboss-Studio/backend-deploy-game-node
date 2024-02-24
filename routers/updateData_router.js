@@ -3,6 +3,6 @@ const updateData = require('../controllers/updateData_controller');
 
 const router = express.Router();
 
-router.get('/', updateData.updateData);
+router.post('/', updateData.updateData);
 
 module.exports = router;
