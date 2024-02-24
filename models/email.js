@@ -33,6 +33,17 @@ class UserModel {
         });
     }
   }
+
+  async incrementMaxTry(email) {
+    return knex('users').where('email', email).first()
+      .then(user => {
+        user.max_try++;
+        return knex('users').where('id', user.id).update(user);
+      })
+      .catch(error => {
+        throw error;
+      });
+  }
 }
 
 module.exports = new UserModel();
