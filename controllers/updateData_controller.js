@@ -8,6 +8,7 @@ class UpdateDataController {
             const keyFromDeploy = req.body.data.key;
             const commentFromDeploy = req.body.comment;
             var numbersOfUsersToNotify = 0;
+            var errorMessages = [];
             var key = KeyGenerator.generateUUID();
             if (keyFromDeploy === process.env.DOWNLOAD_UPDATE_JSON) {
                 const users = await EmailModel.getAllUsers();
@@ -17,12 +18,13 @@ class UpdateDataController {
                         await KeyModel.saveKeyToUpdateMaxTry(key, user, commentFromDeploy);
                         numbersOfUsersToNotify++;
                     } catch (error) {
+                        errorMessages.push(error.message);
                         console.error(error);
                     }
                 }
                 res.status(200).json({ message: 'All users max_try incremented and sender email', numbersOfUsersToNotify: numbersOfUsersToNotify });
             } else {
-                res.status(401).json({ message: 'Unauthorized' });
+                res.status(401).json({ message: 'Unauthorized', error: errorMessages });
                 return;
             }
         } catch (error) {
