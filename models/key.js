@@ -1,6 +1,7 @@
 const knex = require('../database');
 const Mailer = require('./MailSender');
 const fs = require('fs');
+const path = require('path');
 
 
 class KeyModel {
@@ -15,7 +16,8 @@ class KeyModel {
     } else {
       await knex('keys').insert({ key: key, user_id: user.id });
       let mailer = new Mailer(process.env.SERVICE, process.env.SERVICE_PORT, true, process.env.USER, process.env.PASSWORD);
-      let htmlContent = fs.readFileSync(process.env.FILE_HTML_EMAIL, 'utf8');
+      console.log('__dirname', __dirname);
+      let htmlContent = fs.readFileSync(path.resolve(__dirname, process.env.FILE_HTML_EMAIL), 'utf8');
       htmlContent = htmlContent.replace('{{description}}', process.env.EMAIL_DESCRIPTION);
       htmlContent = htmlContent.replace('{{link}}', process.env.EMAIL_ENDPOINT + "?key=" + key);
       mailer.sendMail(process.env.EMAIL_FROM, user.email, process.env.EMAIL_SUBJECT, htmlContent);
