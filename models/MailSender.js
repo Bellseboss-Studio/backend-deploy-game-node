@@ -24,6 +24,7 @@ class Mailer {
     this.transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error, 'error in sendMail Mailer');
+        throw error;
       } else {
         console.log('Email in sendMail Mailer: ' + info.response);
       }
