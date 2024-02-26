@@ -9,12 +9,12 @@ class UpdateDataController {
             const commentFromDeploy = req.body.comment;
             var numbersOfUsersToNotify = 0;
             var errorMessages = [];
-            var key = KeyGenerator.generateUUID();
             if (keyFromDeploy === process.env.DOWNLOAD_UPDATE_JSON) {
                 const users = await EmailModel.getAllUsers();
                 for (const user of users) {
                     try {
                         await EmailModel.incrementMaxTry(user.email);
+                        var key = KeyGenerator.generateUUID();
                         await KeyModel.saveKeyToUpdateMaxTry(key, user, commentFromDeploy);
                         numbersOfUsersToNotify++;
                     } catch (error) {
