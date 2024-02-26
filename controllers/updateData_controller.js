@@ -14,15 +14,8 @@ class UpdateDataController {
                 for (const user of users) {
                     try {
                         await EmailModel.incrementMaxTry(user.email);
-                        const allUsers = await EmailModel.getAllUsers();
-                        for (const user of allUsers) {
-                            try {
-                                await KeyModel.saveKeyToUpdateMaxTry(key, user, commentFromDeploy);
-                                numbersOfUsersToNotify++;
-                            } catch (error) {
-                                console.error(error);
-                            }
-                        }
+                        await KeyModel.saveKeyToUpdateMaxTry(key, user, commentFromDeploy);
+                        numbersOfUsersToNotify++;
                     } catch (error) {
                         console.error(error);
                     }

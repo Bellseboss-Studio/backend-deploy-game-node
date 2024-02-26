@@ -28,7 +28,7 @@ class KeyModel {
     if (keys.length >= user.max_try) {
       throw new Error('the user has reached the maximum number of keys allowed for the account');
     } else {
-      console.log('Keysave','key', key, 'user', user, 'comment', comment);
+      console.log('Keysave', 'key', key, 'user', user, 'comment', comment);
       await knex('keys').insert({ key: key, user_id: user.id });
       let mailer = new Mailer(process.env.SERVICE, process.env.SERVICE_PORT, true, process.env.USER, process.env.PASSWORD);
       let htmlContent = fs.readFileSync(process.env.FILE_HTML_EMAIL, 'utf8');
