@@ -20,6 +20,7 @@ class UpdateDataController {
                     } catch (error) {
                         errorMessages.push(error.message);
                         console.error(error);
+                        throw error;
                     }
                 }
                 res.status(200).json({ message: 'All users max_try incremented and sender email', numbersOfUsersToNotify: numbersOfUsersToNotify });
