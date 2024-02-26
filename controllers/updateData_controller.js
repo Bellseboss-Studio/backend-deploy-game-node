@@ -5,38 +5,33 @@ const KeyModel = require('../models/key');
 class UpdateDataController {
     async updateData(req, res) {
         try {
-            //esto es lo que recibe en el parametro
-            //{"comment": "${{ steps.last_commit.outputs.message }}", "data": ${{ secrets.DOWNLOAD_UPDATE_JSON }}}
-            //Quiero validar una key que esta en un objeto dentro de `data`
             const keyFromDeploy = req.body.data.key;
             const commentFromDeploy = req.body.comment;
+            var numbersOfUsersToNotify = 0;
             var key = KeyGenerator.generateUUID();
             if (keyFromDeploy === process.env.DOWNLOAD_UPDATE_JSON) {
-                const users = await EmailModel.getAllUsers().then((result) => {
-                    return result;
-                }).catch((error) => {
-                    throw error;
-                });
-                users.forEach((user) => {
-                    EmailModel.incrementMaxTry(user.email).then(async (result) => {
-                        const usersUpdated = await EmailModel.getAllUsers();
-                        usersUpdated.forEach((user) => {
-                            KeyModel.saveKeyToUpdateMaxTry(key, user, commentFromDeploy).then((result) => {
-                                res.status(200).json({ message: 'All users max_try incremented and sender email' });
-                            }).catch((error) => {
-                                throw error;
-                            });
-                        });
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-                });
+                const users = await EmailModel.getAllUsers();
+                for (const user of users) {
+                    try {
+                        await EmailModel.incrementMaxTry(user.email);
+                        const allUsers = await EmailModel.getAllUsers();
+                        for (const user of allUsers) {
+                            try {
+                                await KeyModel.saveKeyToUpdateMaxTry(key, user, commentFromDeploy);
+                                numbersOfUsersToNotify++;
+                            } catch (error) {
+                                console.error(error);
+                            }
+                        }
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+                res.status(200).json({ message: 'All users max_try incremented and sender email', numbersOfUsersToNotify: numbersOfUsersToNotify });
             } else {
                 res.status(401).json({ message: 'Unauthorized' });
+                return;
             }
-
-
-            res.status(200).json({ message: 'All users max_try incremented' });
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: error.message, message: error.message });
