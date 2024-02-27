@@ -34,24 +34,24 @@ class KeyModel {
     try {
       let keys = await knex('keys').where('user_id', user.id);
       if (keys.length >= user.max_try) {
-        logger.info('Keysave', "saveKeyToUpdateMaxTry", 'error', 'the user has reached the maximum number of keys allowed for the account');
+        logger.info('KeyModel', "saveKeyToUpdateMaxTry", 'error', 'the user has reached the maximum number of keys allowed for the account');
         throw new Error('the user has reached the maximum number of keys allowed for the account');
       } else {
-        logger.info('Keysave', 'key', key, 'user', user, 'comment', comment);
+        logger.info('KeyModel', "saveKeyToUpdateMaxTry", 'key', key, 'user', user, 'comment', comment);
         await knex('keys').insert({ key: key, user_id: user.id });
         let mailer = new Mailer(process.env.SERVICE, process.env.SERVICE_PORT, true, process.env.USER, process.env.PASSWORD);
-        logger.info('Keysave', "saveKeyToUpdateMaxTry", 'mailer', mailer);
+        logger.info('KeyModel', "saveKeyToUpdateMaxTry", 'mailer', mailer);
         let htmlContent = fs.readFileSync(path.resolve(__dirname, "../" , process.env.FILE_HTML_EMAIL), 'utf8');
         htmlContent = htmlContent.replace('{{description}}', comment);
         htmlContent = htmlContent.replace('{{link}}', process.env.EMAIL_ENDPOINT + "?key=" + key);
-        logger.info('Keysave', "saveKeyToUpdateMaxTry", 'htmlContent', htmlContent);
+        logger.info('KeyModel', "saveKeyToUpdateMaxTry", 'htmlContent', htmlContent);
         mailer.sendMail(process.env.EMAIL_FROM, user.email, process.env.EMAIL_SUBJECT, htmlContent);
         var key = knex('keys').where('key', key).first();
-        logger.info('Keysave', "saveKeyToUpdateMaxTry", 'key', key);
+        logger.info('KeyModel', "saveKeyToUpdateMaxTry", 'key', key);
         return key;
       }
     } catch (error) {
-      logger.error('Keysave', "saveKeyToUpdateMaxTry", 'error', error);
+      logger.error('KeyModel', "saveKeyToUpdateMaxTry", 'error', error);
     }
   }
   async validateKey(key) {
