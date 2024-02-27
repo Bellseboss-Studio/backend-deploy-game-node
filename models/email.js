@@ -1,6 +1,7 @@
 const knex = require('../database');
 const Keys = require('./key');
 const KeyGenerator = require('./keyGenerate');
+const logger = require('../logger');
 
 class UserModel {
   async saveEmail(email) {
@@ -9,7 +10,7 @@ class UserModel {
     if (user) {
       return await Keys.saveKey(key, user).then((result) => {
         user.key = result;
-        console.log(user, 'result in saveEmail UserModel');
+        logger.info(user, 'result in saveEmail UserModel');
         return user;
       }).catch((error) => {
         throw error;

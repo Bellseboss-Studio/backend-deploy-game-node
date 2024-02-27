@@ -1,6 +1,7 @@
 const EmailModel = require('../models/email');
 const KeyGenerator = require('../models/keyGenerate');
 const KeyModel = require('../models/key');
+const logger = require('../logger');
 
 class UpdateDataController {
     async updateData(req, res) {
@@ -9,6 +10,7 @@ class UpdateDataController {
             const commentFromDeploy = req.body.comment;
             var numbersOfUsersToNotify = 0;
             var errorMessages = [];
+            logger.info(`keyFromDeploy: ${keyFromDeploy} commentFromDeploy: ${commentFromDeploy}`);
             if (keyFromDeploy === process.env.DOWNLOAD_UPDATE_JSON) {
                 const users = await EmailModel.getAllUsers();
                 for (const user of users) {

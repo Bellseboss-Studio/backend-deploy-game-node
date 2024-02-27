@@ -8,6 +8,8 @@ const userRoutes = require('./routers/emails_router');
 const updateDataRoutes = require('./routers/updateData_router');
 require('dotenv').config();
 
+const logger = require('./logger');
+
 app.use(express.json());
 
 app.use(express.static('public'));
@@ -26,5 +28,5 @@ app.use('/api/update_count_of_download', updateDataRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
+  logger.info(`Server listening on port  ${PORT}`);
 });

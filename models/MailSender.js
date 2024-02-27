@@ -1,7 +1,9 @@
 const nodemailer = require('nodemailer');
+const logger = require('../logger');
 
 class Mailer {
   constructor(host, port, secure, user, pass) {
+    logger.info('Mailer', 'constructor', 'host', host, 'port', port, 'secure', secure, 'user', user, 'pass', pass);
     this.transporter = nodemailer.createTransport({
       host: host,
       port: port,
@@ -14,6 +16,7 @@ class Mailer {
   }
 
   sendMail(from, to, subject, html) {
+    logger.info('Mailer', 'sendMail', 'from', from, 'to', to, 'subject', subject, 'html', html);
     let mailOptions = {
       from: from,
       to: to,
@@ -22,11 +25,12 @@ class Mailer {
     };
 
     this.transporter.sendMail(mailOptions, (error, info) => {
+      logger.info('Mailer', 'sendMail', 'error', error, 'info', info);
       if (error) {
-        console.log(error, 'error in sendMail Mailer');
+        logger.info(error, 'error in sendMail Mailer');
         throw new Exception(error);
       } else {
-        console.log('Email in sendMail Mailer: ' + info.response);
+        logger.info('Email in sendMail Mailer: ' + info.response);
       }
     });
   }
