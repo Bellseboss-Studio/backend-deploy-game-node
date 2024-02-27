@@ -10,7 +10,7 @@ class UserController {
       res.json({ email: result.email });
     }
     ).catch((error) => {
-      console.error(error);
+      logger.error(error);
       res.status(500).json({ error: error.message, message: error.message });
     });
   }

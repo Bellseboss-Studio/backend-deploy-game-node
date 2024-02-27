@@ -22,7 +22,7 @@ class UpdateDataController {
                         numbersOfUsersToNotify++;
                     } catch (error) {
                         errorMessages.push(error.message);
-                        console.error(error);
+                        logger.error(error);
                         throw error;
                     }
                 }
@@ -32,7 +32,7 @@ class UpdateDataController {
                 return;
             }
         } catch (error) {
-            console.error(error);
+            logger.error(error);
             res.status(500).json({ error: error.message, message: error.message });
         }
     }
