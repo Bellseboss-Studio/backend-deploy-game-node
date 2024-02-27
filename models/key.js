@@ -31,19 +31,27 @@ class KeyModel {
     }
   }
   async saveKeyToUpdateMaxTry(key, user, comment) {
-    let keys = await knex('keys').where('user_id', user.id);
-    if (keys.length >= user.max_try) {
-      throw new Error('the user has reached the maximum number of keys allowed for the account');
-    } else {
-      logger.info('Keysave', 'key', key, 'user', user, 'comment', comment);
-      await knex('keys').insert({ key: key, user_id: user.id });
-      let mailer = new Mailer(process.env.SERVICE, process.env.SERVICE_PORT, true, process.env.USER, process.env.PASSWORD);
-      let htmlContent = fs.readFileSync(process.env.FILE_HTML_EMAIL, 'utf8');
-      htmlContent = htmlContent.replace('{{description}}', comment);
-      htmlContent = htmlContent.replace('{{link}}', process.env.EMAIL_ENDPOINT + "?key=" + key);
-      mailer.sendMail(process.env.EMAIL_FROM, user.email, process.env.EMAIL_SUBJECT, htmlContent);
-      var key = knex('keys').where('key', key).first();
-      return key;
+    try {
+      let keys = await knex('keys').where('user_id', user.id);
+      if (keys.length >= user.max_try) {
+        logger.info('Keysave', "saveKeyToUpdateMaxTry", 'error', 'the user has reached the maximum number of keys allowed for the account');
+        throw new Error('the user has reached the maximum number of keys allowed for the account');
+      } else {
+        logger.info('Keysave', 'key', key, 'user', user, 'comment', comment);
+        await knex('keys').insert({ key: key, user_id: user.id });
+        let mailer = new Mailer(process.env.SERVICE, process.env.SERVICE_PORT, true, process.env.USER, process.env.PASSWORD);
+        logger.info('Keysave', "saveKeyToUpdateMaxTry", 'mailer', mailer);
+        let htmlContent = fs.readFileSync(process.env.FILE_HTML_EMAIL, 'utf8');
+        htmlContent = htmlContent.replace('{{description}}', comment);
+        htmlContent = htmlContent.replace('{{link}}', process.env.EMAIL_ENDPOINT + "?key=" + key);
+        logger.info('Keysave', "saveKeyToUpdateMaxTry", 'htmlContent', htmlContent);
+        mailer.sendMail(process.env.EMAIL_FROM, user.email, process.env.EMAIL_SUBJECT, htmlContent);
+        var key = knex('keys').where('key', key).first();
+        logger.info('Keysave', "saveKeyToUpdateMaxTry", 'key', key);
+        return key;
+      }
+    } catch (error) {
+      logger.error('Keysave', "saveKeyToUpdateMaxTry", 'error', error);
     }
   }
   async validateKey(key) {
