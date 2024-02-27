@@ -6,7 +6,7 @@ class UserController {
   saveEmail(req, res) {
     const { email } = req.body;
     EmailModel.saveEmail(email).then((result) => {
-      logger.info(result, 'savedEmail in UserController.saveEmail');
+      logger.info([result, 'savedEmail in UserController.saveEmail']);
       res.json({ email: result.email });
     }
     ).catch((error) => {

@@ -10,7 +10,7 @@ class UserModel {
     if (user) {
       return await Keys.saveKey(key, user).then((result) => {
         user.key = result;
-        logger.info(user, 'result in saveEmail UserModel');
+        logger.info([user, 'result in saveEmail UserModel']);
         return user;
       }).catch((error) => {
         throw error;

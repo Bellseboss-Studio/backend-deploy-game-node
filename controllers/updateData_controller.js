@@ -6,7 +6,7 @@ const logger = require('../logger');
 class UpdateDataController {
     async updateData(req, res) {
         try {
-            logger.info("updateDataController.updateData() called", req.body);
+            logger.info(["updateDataController.updateData() called", req.body]);
             const keyFromDeploy = req.body.data.key;
             const commentFromDeploy = req.body.comment;
             var numbersOfUsersToNotify = 0;

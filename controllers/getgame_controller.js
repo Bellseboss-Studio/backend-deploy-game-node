@@ -9,7 +9,7 @@ class GetGameController {
     logger.info(key);
     //validate the key is valid
     KeyModel.validateKey(key).then((result) => {
-      logger.info(result, 'result');
+      logger.info([result, 'result']);
       if (result) {
         const filePath = path.join(__dirname, '../files', 'mkoc.zip');
         res.download(filePath);
