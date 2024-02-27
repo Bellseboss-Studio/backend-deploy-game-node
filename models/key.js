@@ -20,7 +20,7 @@ class KeyModel {
       await knex('keys').insert({ key: key, user_id: user.id });
       let mailer = new Mailer(process.env.SERVICE, process.env.SERVICE_PORT, true, process.env.USER, process.env.PASSWORD);
       logger.info('KeyModel', 'saveKey', 'mailer', mailer);
-      let htmlContent = fs.readFileSync(path.resolve(__dirname, process.env.FILE_HTML_EMAIL), 'utf8');
+      let htmlContent = fs.readFileSync(path.resolve(__dirname, "../", process.env.FILE_HTML_EMAIL), 'utf8');
       htmlContent = htmlContent.replace('{{description}}', process.env.EMAIL_DESCRIPTION);
       htmlContent = htmlContent.replace('{{link}}', process.env.EMAIL_ENDPOINT + "?key=" + key);
       logger.info('KeyModel', 'saveKey', 'htmlContent', htmlContent);
@@ -41,7 +41,7 @@ class KeyModel {
         await knex('keys').insert({ key: key, user_id: user.id });
         let mailer = new Mailer(process.env.SERVICE, process.env.SERVICE_PORT, true, process.env.USER, process.env.PASSWORD);
         logger.info('Keysave', "saveKeyToUpdateMaxTry", 'mailer', mailer);
-        let htmlContent = fs.readFileSync(process.env.FILE_HTML_EMAIL, 'utf8');
+        let htmlContent = fs.readFileSync(path.resolve(__dirname, "../" , process.env.FILE_HTML_EMAIL), 'utf8');
         htmlContent = htmlContent.replace('{{description}}', comment);
         htmlContent = htmlContent.replace('{{link}}', process.env.EMAIL_ENDPOINT + "?key=" + key);
         logger.info('Keysave', "saveKeyToUpdateMaxTry", 'htmlContent', htmlContent);
