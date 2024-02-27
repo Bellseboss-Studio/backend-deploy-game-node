@@ -28,7 +28,7 @@ class Mailer {
       logger.info('Mailer', 'sendMail', 'error', error, 'info', info);
       if (error) {
         logger.info(error, 'error in sendMail Mailer');
-        throw new Exception(error);
+        throw new Error(error);
       } else {
         logger.info('Email in sendMail Mailer: ' + info.response);
       }
