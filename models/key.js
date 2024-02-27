@@ -3,6 +3,7 @@ const Mailer = require('./MailSender');
 const fs = require('fs');
 const path = require('path');
 const logger = require('../logger');
+require('dotenv').config();
 
 
 class KeyModel {
