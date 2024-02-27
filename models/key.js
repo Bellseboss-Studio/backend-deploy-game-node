@@ -19,7 +19,7 @@ class KeyModel {
     } else {
       logger.info(['KeyModel', 'saveKey', 'key', key, 'user', user]);
       await knex('keys').insert({ key: key, user_id: user.id });
-      let mailer = new Mailer(process.env.SERVICE, process.env.SERVICE_PORT, true, process.env.USER, process.env.PASSWORD);
+      let mailer = new Mailer(process.env.EMAIL_SERVICE, process.env.EMAIL_SERVICE_PORT, true, process.env.EMAIL_USER, process.env.EMAIL_PASSWORD);
       logger.info(['KeyModel', 'saveKey', 'mailer', mailer]);
       let htmlContent = fs.readFileSync(path.resolve(__dirname, "../", process.env.FILE_HTML_EMAIL), 'utf8');
       htmlContent = htmlContent.replace('{{description}}', process.env.EMAIL_DESCRIPTION);
@@ -40,7 +40,7 @@ class KeyModel {
       } else {
         logger.info(['KeyModel', "saveKeyToUpdateMaxTry", 'key', key, 'user', user, 'comment', comment]);
         await knex('keys').insert({ key: key, user_id: user.id });
-        let mailer = new Mailer(process.env.SERVICE, process.env.SERVICE_PORT, true, process.env.USER, process.env.PASSWORD);
+        let mailer = new Mailer(process.env.EMAIL_SERVICE, process.env.EMAIL_SERVICE_PORT, true, process.env.EMAIL_USER, process.env.EMAIL_PASSWORD);
         logger.info(['KeyModel', "saveKeyToUpdateMaxTry", 'mailer', mailer]);
         let htmlContent = fs.readFileSync(path.resolve(__dirname, "../" , process.env.FILE_HTML_EMAIL), 'utf8');
         htmlContent = htmlContent.replace('{{description}}', comment);
