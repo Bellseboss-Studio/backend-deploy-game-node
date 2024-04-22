@@ -21,8 +21,8 @@ class KeyModel {
       await knex('keys').insert({ key: key, user_id: user.id });
       let mailer = new Mailer(process.env.EMAIL_SERVICE, process.env.EMAIL_SERVICE_PORT, true, process.env.EMAIL_USER, process.env.EMAIL_PASSWORD);
       logger.info(['KeyModel', 'saveKey', 'mailer', mailer]);
-      let path = path.resolve(__dirname, "../", process.env.FILE_HTML_EMAIL);
-      logger.info(['KeyModel', 'saveKey', 'path', path]);
+      let pathLocal = path.resolve(__dirname, "../", process.env.FILE_HTML_EMAIL);
+      logger.info(['KeyModel', 'saveKey', 'path', pathLocal]);
       let htmlContent = fs.readFileSync(path, 'utf8');
       htmlContent = htmlContent.replace('{{description}}', process.env.EMAIL_DESCRIPTION);
       htmlContent = htmlContent.replace('{{link}}', process.env.EMAIL_ENDPOINT + "?key=" + key);
