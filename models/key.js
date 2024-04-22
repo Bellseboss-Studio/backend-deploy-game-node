@@ -23,7 +23,7 @@ class KeyModel {
       logger.info(['KeyModel', 'saveKey', 'mailer', mailer]);
       let pathLocal = path.resolve(__dirname, "../", process.env.FILE_HTML_EMAIL);
       logger.info(['KeyModel', 'saveKey', 'path', pathLocal]);
-      let htmlContent = fs.readFileSync(path, 'utf8');
+      let htmlContent = fs.readFileSync(pathLocal, 'utf8');
       htmlContent = htmlContent.replace('{{description}}', process.env.EMAIL_DESCRIPTION);
       htmlContent = htmlContent.replace('{{link}}', process.env.EMAIL_ENDPOINT + "?key=" + key);
       logger.info(['KeyModel', 'saveKey', 'htmlContent', htmlContent]);
