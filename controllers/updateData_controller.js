@@ -2,6 +2,7 @@ const EmailModel = require('../models/email');
 const KeyGenerator = require('../models/keyGenerate');
 const KeyModel = require('../models/key');
 const logger = require('../logger');
+const link = require('../models/link');
 
 class UpdateDataController {
     async updateData(req, res) {
@@ -9,10 +10,14 @@ class UpdateDataController {
             logger.info(["updateDataController.updateData() called", req.body]);
             const keyFromDeploy = req.body.data.key;
             const commentFromDeploy = req.body.comment;
+            const link_to_download_game = req.body.data.url_to_download;
             var numbersOfUsersToNotify = 0;
             var errorMessages = [];
-            logger.info(`keyFromDeploy: ${keyFromDeploy} commentFromDeploy: ${commentFromDeploy}`);
+            logger.info(`keyFromDeploy: ${keyFromDeploy} commentFromDeploy: ${commentFromDeploy} link_to_download_game: ${link_to_download_game}`);
             if (keyFromDeploy === process.env.DOWNLOAD_UPDATE_JSON) {
+                //insert the link to download the game in the db
+                await link.updateAllLinksStatus(1);
+                await link.insertLink({ 'link': link_to_download_game });
                 const users = await EmailModel.getAllUsers();
                 for (const user of users) {
                     try {

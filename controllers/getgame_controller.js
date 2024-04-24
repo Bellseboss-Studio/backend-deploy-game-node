@@ -1,6 +1,7 @@
 const path = require('path');
 const KeyModel = require('../models/key');
 const logger = require('../logger');
+const link = require('../models/link');
 
 class GetGameController {
   getGame(req, res) {
@@ -11,8 +12,10 @@ class GetGameController {
     KeyModel.validateKey(key).then((result) => {
       logger.info([result, 'result']);
       if (result) {
-        const filePath = path.join(__dirname, '../files', 'mkoc.zip');
-        res.download(filePath);
+        //consult db from the url link
+        link.getLinksByStatus(0).then((result) => {
+          res.redirect(result.link);
+        });
       } else {
         //llave usada
         res.sendFile(path.join(__dirname, '../public', 'getgamefail.html'));
