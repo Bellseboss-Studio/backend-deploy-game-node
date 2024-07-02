@@ -368,7 +368,7 @@
                         <!-- This is what your users will see when there is-->
                         <!-- an error submitting the form-->
                         <div class="d-none" id="submitErrorMessage">
-                            <div class="text-center text-danger mb-3">Error enviando el correo, porfavor intentalo de
+                            <div class="text-center text-danger mb-3" id="submitErrorMessageMessage">Error enviando el correo, porfavor intentalo de
                                 nuevo!</div>
                         </div>
                         <!-- Submit Button-->
@@ -396,6 +396,7 @@
             var submitButton = document.getElementById('submitButton');
             var successMessage = document.getElementById('submitSuccessMessage');
             var errorMessage = document.getElementById('submitErrorMessage');
+            var errorMessageMessage = document.getElementById('submitErrorMessageMessage');
             var emailRequiredFeedback = document.querySelector('[data-sb-feedback="email:required"]');
             var emailInvalidFeedback = document.querySelector('[data-sb-feedback="email:email"]');
             var submitButtonContainer = submitButton.parentElement; // Obtiene el contenedor del botón de envío
@@ -435,6 +436,7 @@
                 }, (error) => {
                     successMessage.classList.add('d-none');
                     errorMessage.classList.remove('d-none');
+                    errorMessageMessage.textContent = error.message;
                 });
             });
         });
