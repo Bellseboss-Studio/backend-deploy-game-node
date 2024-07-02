@@ -1,7 +1,7 @@
 class SaveEmail {
-    save(endpoint, email, onSucces, onError) {
+    save(email, onSucces, onError) {
         this.email = email;
-        fetch(endpoint+'/api/email/save', {
+        fetch('/api/email/save', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
