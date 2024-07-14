@@ -10,7 +10,7 @@ class UpdateDataController {
             logger.info(["updateDataController.updateData() called", req.body]);
             const keyFromDeploy = req.body.data.key;
             const commentFromDeploy = req.body.comment;
-            const link_to_download_game = req.body.data.url_to_download;
+            const link_to_download_game = req.body.data.URL;
             var numbersOfUsersToNotify = 0;
             var errorMessages = [];
             logger.info(`keyFromDeploy: ${keyFromDeploy} commentFromDeploy: ${commentFromDeploy} link_to_download_game: ${link_to_download_game}`);
